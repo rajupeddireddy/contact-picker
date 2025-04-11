@@ -12,8 +12,8 @@ const ContactPicker = () => {
         return;
       }
 
-      const props = ['tel', 'name'];
-      const opts = { multiple: true };
+      const props = ['tel', 'name']; // Request phone number and name
+      const opts = { multiple: true }; // Set to true for multiple contacts
 
       const contacts = await navigator.contacts.select(props, opts);
 
@@ -21,15 +21,12 @@ const ContactPicker = () => {
         setSelectedContacts(
           contacts.map((contact) => ({
             name: contact.name?.[0] || 'Unknown',
-            tel: contact.tel || [], // Keep all numbers
+            tel: contact.tel?.[0] || 'No number',
           }))
         );
 
-        // Optional: autofill the first number of the first contact
-        const firstNumber = contacts[0]?.tel?.[0];
-        if (firstNumber) {
-          document.getElementById('phoneInput').value = firstNumber;
-        }
+        // Autofill the first number into the input field if needed
+        document.getElementById('phoneInput').value = contacts[0].tel?.[0] || '';
       }
     } catch (err) {
       console.error('Contact selection failed', err);
