@@ -45,10 +45,27 @@ const ContactPicker = () => {
       {selectedContacts.length > 0 && (
         <div style={{ marginTop: '16px' }}>
           <h3>Selected Contact(s):</h3>
-          <ul>
+          <ul style={{ listStyle: 'none', padding: 0 }}>
             {selectedContacts.map((contact, index) => (
-              <li key={index}>
-                {contact.name} - {contact.tel}
+              <li
+                key={index}
+                style={{
+                  backgroundColor: '#f9f9f9',
+                  border: '1px solid #ddd',
+                  borderRadius: '8px',
+                  padding: '10px 15px',
+                  marginBottom: '10px',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+                }}
+              >
+                <strong>{contact.name}</strong>
+                <ul style={{ paddingLeft: '20px', marginTop: '6px' }}>
+                  {contact.tel.map((number, idx) => (
+                    <li key={idx} style={{ fontSize: '14px', color: '#333' }}>
+                      {number}
+                    </li>
+                  ))}
+                </ul>
               </li>
             ))}
           </ul>
