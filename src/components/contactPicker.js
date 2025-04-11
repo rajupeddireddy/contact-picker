@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Button from '@mui/material/Button';
 
 const ContactPicker = () => {
   const [selectedContacts, setSelectedContacts] = useState([]);
@@ -11,8 +12,8 @@ const ContactPicker = () => {
         return;
       }
 
-      const props = ['tel', 'name']; // Request phone number and name
-      const opts = { multiple: true }; // Set to true for multiple contacts
+      const props = ['tel', 'name'];
+      const opts = { multiple: true };
 
       const contacts = await navigator.contacts.select(props, opts);
 
@@ -20,12 +21,15 @@ const ContactPicker = () => {
         setSelectedContacts(
           contacts.map((contact) => ({
             name: contact.name?.[0] || 'Unknown',
-            tel: contact.tel?.[0] || 'No number',
+            tel: contact.tel || [], // Keep all numbers
           }))
         );
 
-        // Autofill the first number into the input field if needed
-        document.getElementById('phoneInput').value = contacts[0].tel?.[0] || '';
+        // Optional: autofill the first number of the first contact
+        const firstNumber = contacts[0]?.tel?.[0];
+        if (firstNumber) {
+          document.getElementById('phoneInput').value = firstNumber;
+        }
       }
     } catch (err) {
       console.error('Contact selection failed', err);
@@ -34,8 +38,10 @@ const ContactPicker = () => {
 
   return (
     <div>
-      <button onClick={handlePickContact}>Pick Contact(s)</button>
-
+      <h1>Contact Picker📖</h1>
+      <p>Pick from user👤 browser</p>
+      <p style={{fontSize:'12px', fontStyle:'italic', marginBottom:'30px', color:'grey'}}>Note: Works on andriod/ios must be served over https</p>
+      <Button variant="contained"  onClick={handlePickContact}>Pick Contact</Button>
       {selectedContacts.length > 0 && (
         <div style={{ marginTop: '16px' }}>
           <h3>Selected Contact(s):</h3>
