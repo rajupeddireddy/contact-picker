@@ -12,8 +12,8 @@ const ContactPicker = () => {
         return;
       }
 
-      const props = ['tel', 'name']; // Request phone number and name
-      const opts = { multiple: true }; // Set to true for multiple contacts
+      const props = ['tel', 'name'];
+      const opts = { multiple: true };
 
       const contacts = await navigator.contacts.select(props, opts);
 
@@ -45,27 +45,10 @@ const ContactPicker = () => {
       {selectedContacts.length > 0 && (
         <div style={{ marginTop: '16px' }}>
           <h3>Selected Contact(s):</h3>
-          <ul style={{ listStyle: 'none', padding: 0 }}>
+          <ul>
             {selectedContacts.map((contact, index) => (
-              <li
-                key={index}
-                style={{
-                  backgroundColor: '#f9f9f9',
-                  border: '1px solid #ddd',
-                  borderRadius: '8px',
-                  padding: '10px 15px',
-                  marginBottom: '10px',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
-                }}
-              >
-                <strong>{contact.name}</strong>
-                <ul style={{ paddingLeft: '20px', marginTop: '6px' }}>
-                  {contact.tel.map((number, idx) => (
-                    <li key={idx} style={{ fontSize: '14px', color: '#333' }}>
-                      {number}
-                    </li>
-                  ))}
-                </ul>
+              <li key={index}>
+                {contact.name} - {contact.tel}
               </li>
             ))}
           </ul>
